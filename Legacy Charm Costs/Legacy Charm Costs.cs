@@ -9,7 +9,7 @@ namespace LegacyCharmCosts{
 
     public class LegacyCharmCosts : Mod, ITogglableMod, IMenuMod, IGlobalSettings<GlobalSettingsClass>{
         new public string GetName() => "Legacy Charm Costs";
-        public override string GetVersion() => "1.0.1.0";
+        public override string GetVersion() => "1.0.1.1";
         public static GlobalSettingsClass GS {get; set;} = new GlobalSettingsClass();
         public bool ToggleButtonInsideMenu => true;
         public override void Initialize(){
