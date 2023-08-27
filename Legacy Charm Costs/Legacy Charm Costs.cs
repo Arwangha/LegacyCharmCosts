@@ -9,7 +9,7 @@ namespace LegacyCharmCosts{
 
     public class LegacyCharmCosts : Mod, ITogglableMod, IMenuMod, IGlobalSettings<GlobalSettingsClass>{
         new public string GetName() => "Legacy Charm Costs";
-        public override string GetVersion() => "1.0.0.1";
+        public override string GetVersion() => "1.0.1.0";
         public static GlobalSettingsClass GS {get; set;} = new GlobalSettingsClass();
         public bool ToggleButtonInsideMenu => true;
         public override void Initialize(){
@@ -30,7 +30,7 @@ namespace LegacyCharmCosts{
                         "Yes",
                     },
                     Saver = opt => (GS.permanentChanges, PlayerData.instance.charmCost_32, PlayerData.instance.charmCost_11) = opt switch {
-                        0 => (false,QSSavedCost(false,GS.legacyQS),FNSavedCost(true, GS.legacyFN)),
+                        0 => (false,QSSavedCost(false,GS.legacyQS),FNSavedCost(false, GS.legacyFN)),
                         1 => (true,QSSavedCost(true, GS.legacyQS),FNSavedCost(true, GS.legacyFN)),
                         _ => throw new InvalidOperationException()
                     },
