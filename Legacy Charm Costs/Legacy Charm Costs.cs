@@ -9,11 +9,12 @@ namespace LegacyCharmCosts{
 
     public class LegacyCharmCosts : Mod, ITogglableMod, IMenuMod, IGlobalSettings<GlobalSettingsClass>{
         new public string GetName() => "Legacy Charm Costs";
-        public override string GetVersion() => "1.0.1.1";
+        public override string GetVersion() => "1.0.2.0";
         public static GlobalSettingsClass GS {get; set;} = new GlobalSettingsClass();
         public bool ToggleButtonInsideMenu => true;
         public override void Initialize(){
             ModHooks.GetPlayerIntHook += GetInt;
+            ModHooks.GetPlayerBoolHook += GetBool;
             On.HeroController.Awake += HCAwake;
         }
 
@@ -94,6 +95,18 @@ namespace LegacyCharmCosts{
             }
             return orig;
         }
+        private bool GetBool(string name, bool orig){
+            if (name == "overcharmed"){
+                Log("Checking for overcharmed");
+                if (PlayerData.instance.charmSlots - PlayerData.instance.charmSlotsFilled < 0){
+                    orig = true;
+                }
+                else {
+                    orig = false;
+                }
+            }
+            return orig;
+        }
 
         public int QSSavedCost(bool permachanges, bool legaQS){
             if (legaQS && permachanges){
@@ -128,6 +141,7 @@ namespace LegacyCharmCosts{
         
         public void Unload(){
             ModHooks.GetPlayerIntHook -= GetInt;
+            ModHooks.GetPlayerBoolHook -= GetBool;
             On.HeroController.Awake -= HCAwake;
         }
     }
