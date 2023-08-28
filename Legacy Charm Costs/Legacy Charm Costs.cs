@@ -9,9 +9,10 @@ namespace LegacyCharmCosts{
 
     public class LegacyCharmCosts : Mod, ITogglableMod, IMenuMod, IGlobalSettings<GlobalSettingsClass>{
         new public string GetName() => "Legacy Charm Costs";
-        public override string GetVersion() => "1.0.2.0";
+        public override string GetVersion() => "1.0.2.2";
         public static GlobalSettingsClass GS {get; set;} = new GlobalSettingsClass();
         public bool ToggleButtonInsideMenu => true;
+        public int NotchAmount = 0;
         public override void Initialize(){
             ModHooks.GetPlayerIntHook += GetInt;
             ModHooks.GetPlayerBoolHook += GetBool;
@@ -93,12 +94,15 @@ namespace LegacyCharmCosts{
                 PlayerData.instance.charmCost_11 = FNSavedCost(GS.permanentChanges,GS.legacyFN);
             Log("Ensuring in-game Flukenest cost matches with the settings");
             }
+            else if(name == "charmSlots"){
+                NotchAmount = orig;
+            }
             return orig;
         }
         private bool GetBool(string name, bool orig){
             if (name == "overcharmed"){
-                Log("Checking for overcharmed");
-                if (PlayerData.instance.charmSlots - PlayerData.instance.charmSlotsFilled < 0){
+                Log($"Checking for overcharmed, saw {NotchAmount} notches");
+                if (NotchAmount - PlayerData.instance.charmSlotsFilled < 0){
                     orig = true;
                 }
                 else {
